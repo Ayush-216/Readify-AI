@@ -29,6 +29,13 @@ interviewRouter.get("/report/:interviewId", authMiddleware.authUser, interviewCo
  
 interviewRouter.get("/", authMiddleware.authUser, interviewController.getAllInterviewReportsController); 
 
+/**
+ * @route POST /api/interview/resume/pdf
+ * @desc  This route is used to generate a PDF of the resume based on the provided interviewReportId.
+ * @access private
+ */
+
+interviewRouter.post("/resume/pdf/:interviewReportId", authMiddleware.authUser, interviewController.generateResumePdfController);
 
 
 module.exports = interviewRouter;

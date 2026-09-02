@@ -50,3 +50,16 @@ export const getAllInterviewReports = async () => {
 
     return response.data;
 };
+
+
+/**
+ * description: This function is used to generate a PDF of the resume
+ * based on the provided interview report ID.
+ */
+export const generateResumePdf = async (interviewReportId) => {
+    const response = await api.post(`/api/interview/resume/pdf/${interviewReportId}`, null, {
+        responseType: 'blob', // Important for handling binary data
+    });
+
+    return response.data;
+};
