@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
  *      [{
  *      question: "",
  *      intention: "",
- *      expectedAnswer: "",
+ *      answer: "",
  *      }]
  * behavioral questions : []
  * skill gaps : 
@@ -38,7 +38,7 @@ const technicalQuestionSchema = new mongoose.Schema({
             type: String,
             required: [true, "Intention is required"]
         },
-        expectedAnswer: {  
+        answer: {  
             type: String,
             required: [true, "Expected answer is required"]
         }
@@ -54,7 +54,7 @@ const technicalQuestionSchema = new mongoose.Schema({
             type: String,
             required: [true, "Intention is required"]
         },
-        expectedAnswer: {  
+        answer: {  
             type: String,
             required: [true, "Expected answer is required"]
         }
@@ -63,18 +63,18 @@ const technicalQuestionSchema = new mongoose.Schema({
     })
 
     const skillGapSchema = new mongoose.Schema({
-        skill: {
-            type: String,
-            required: [true, "Skill is required"]
-        },
-        severity: {
-            type: String,
-            required: [true, "Severity is required"],
-            enum: ["low", "medium", "high"]
-        }
-    },{
-            _id: false
-        })
+    skill: {
+        type: String,
+        required: [true, "Skill is required"]
+    },
+    severity: {
+        type: String,
+        required: [true, "Severity is required"],
+        enum: ["low", "medium", "high"]
+    }
+}, {
+    _id: false
+});
 
 const preparationPlanSchema = new mongoose.Schema({
     day: {
@@ -89,12 +89,14 @@ const preparationPlanSchema = new mongoose.Schema({
         type: String,
         required: [true, "Task is required"]
     }]
-},{
-    _id: false
 })
 
 
 const interviewReportSchema = new mongoose.Schema({
+    title:{
+        type: String,
+        required: [true, "Job title is required"]
+    },
     jobDescription: {
         type: String,
         required: [true, "Job description is required"]
@@ -115,13 +117,17 @@ const interviewReportSchema = new mongoose.Schema({
 
     behavioralQuestions: [behavioralQuestionSchema],
     skillGaps: [skillGapSchema],
-    preparationPlan: [preparationPlanSchema]
+    preparationPlan: [preparationPlanSchema],
+    user:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'users',
+    }
 },{
     timestamps: true
 })
 
 // further we can do add metedata that which model we used to create the report but keeping it now for future improvements
 
-const interviewReportModel = mongoose.model('interviewReports', interviewReportSchema);
+const interviewReportModel = mongoose.model('InterviewReport', interviewReportSchema);
 
 module.exports = interviewReportModel;

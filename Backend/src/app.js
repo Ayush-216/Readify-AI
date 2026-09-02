@@ -13,9 +13,11 @@ app.use(cors({
 
 // require all routes here
 const authRouter = require('./routes/auth.routes');
+const interviewRouter = require('./routes/interview.routes');
 
 // auth related api can be accessed through this route
 app.use('/api/auth', authRouter);
+app.use('/api/interview', interviewRouter);
 
 module.exports = app;
 const port = 3000;
