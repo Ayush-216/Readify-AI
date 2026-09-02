@@ -5,10 +5,15 @@ import "../style/navbar.scss";
 
 const Navbar = () => {
     const navigate = useNavigate();
-    const { handleLogout } = useAuth();
+
+    const {
+        handleLogout,
+        actionLoading
+    } = useAuth();
 
     const handleLogoutClick = async () => {
         await handleLogout();
+
         navigate("/login");
     };
 
@@ -24,8 +29,9 @@ const Navbar = () => {
             <button
                 className="navbar-logout"
                 onClick={handleLogoutClick}
+                disabled={actionLoading}
             >
-                Logout
+                {actionLoading ? "Logging out..." : "Logout"}
             </button>
         </nav>
     );

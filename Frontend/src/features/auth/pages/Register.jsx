@@ -25,14 +25,14 @@ const Register = () => {
 
     if (loading) {
         return (
-            <main>
-                <h1>Loading.....</h1>
+            <main className="auth-page">
+                <h1 className="auth-loading">Loading.....</h1>
             </main>
         );
     }
 
     return (
-        <main>
+        <main className="auth-page">
             <div className="form-container">
                 <h1>Register</h1>
 
