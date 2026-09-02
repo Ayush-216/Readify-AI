@@ -6,6 +6,10 @@ import Protected from "./features/auth/components/protected";
 
 import Home from "./features/interview/pages/Home";
 import Interview from "./features/interview/pages/Interview";
+import PrivacyPolicy from "./features/interview/pages/PrivacyPolicy";
+import TermsOfService from "./features/interview/pages/TermsOfService";
+import HelpCenter from "./features/interview/pages/HelpCenter";
+
 import Navbar from "./features/interview/components/Navbar";
 
 
@@ -42,5 +46,20 @@ export const router = createBrowserRouter([
                 </>
             </Protected>
         )
+    },
+
+    {
+        path: "/privacy-policy",
+        element: <PrivacyPolicy />
+    },
+
+    {
+        path: "/terms-of-service",
+        element: <TermsOfService />
+    },
+
+    {
+        path: "/help",
+        element: <HelpCenter />
     }
 ]);
