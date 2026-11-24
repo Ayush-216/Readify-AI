@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 
@@ -9,18 +9,19 @@ const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const { loading, handleRegister } = useAuth();
+    const { loading, actionLoading, handleRegister } = useAuth();
+    const [error, setError] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        await handleRegister({
-            username,
-            email,
-            password,
-        });
-
-        navigate("/");
+        setError("");
+        try {
+            await handleRegister({ username, email, password });
+            navigate("/");
+        } catch (err) {
+            setError(err.response?.data?.message || "Unable to register. Please try again.");
+        }
     };
 
     if (loading) {
@@ -79,11 +80,13 @@ const Register = () => {
                         />
                     </div>
 
+                    {error && <p role="alert">{error}</p>}
                     <button
                         type="submit"
                         className="button primary-button"
+                        disabled={actionLoading}
                     >
-                        Register
+                        {actionLoading ? "Creating account..." : "Register"}
                     </button>
                 </form>
 

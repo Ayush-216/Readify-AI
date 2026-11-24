@@ -1,58 +1,8 @@
 import axios from "axios";
 
-//reusable axios instance for making API calls to the backend
-const api = axios.create({
-    baseURL: "http://localhost:3000/api",
-    withCredentials: true
-})
+const api = axios.create({ baseURL: "http://localhost:3000/api", withCredentials: true });
 
-//how api call works for login from frontend to backend
-export async function register({username, email, password}) {
-
-    try{
-      const response = await api.post("/auth/register", {
-        username,
-        email,
-        password
-     })
-
-        return response.data
-
-    }catch (error){
-        console.log(error)
-    }
-
-}
-
-export async function login({email, password}) {
-
-    try{
-      const response = await api.post("/auth/login", {
-        email,
-        password
-     })
-        return response.data
-
-    }catch (error){
-        console.log(error)
-    }
-}
-
-export async function logout() {
-
-    try{
-      const response = await api.get("/auth/logout")
-        return response.data
-    }catch (error){
-        console.log(error)
-    }
-}
-
-export async function getMe() {
-    try{
-      const response = await api.get("/auth/get-me")
-        return response.data
-    }catch (error){
-        console.log(error)
-    }
-}
+export const register = async (details) => (await api.post("/auth/register", details)).data;
+export const login = async (details) => (await api.post("/auth/login", details)).data;
+export const logout = async () => (await api.get("/auth/logout")).data;
+export const getMe = async () => (await api.get("/auth/get-me")).data;

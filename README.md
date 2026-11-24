@@ -1,5 +1,15 @@
 # Readify-AI
 
+## Tech news setup
+
+The public `/news` page displays up to 10 Hacker News stories with a verified image and Groq-generated summary. The backend refreshes the MongoDB snapshot at startup and every hour while it is running. It retries unsuccessful extraction, image checks, and summaries twice after the first attempt, skips incomplete candidates, and checks further stories. It can cache up to five additional stories to replace images that fail in the browser. If too few stories qualify, fewer than 10 are displayed. The original article is the source of truth.
+
+Set `MONGO_URI` and `GROQ_API_KEY` in `Backend/.env`. `GROQ_NEWS_MODEL` is optional and defaults to `openai/gpt-oss-20b`; changing it requires a Groq model that supports strict JSON-schema output. Groq free-tier quotas and access depend on the account. An always-running backend (or a future external scheduler) is required for hourly refreshes. A MongoDB lock prevents overlapping refreshes across instances; failed refreshes retain the previous snapshot.
+
+The news module exposes a read-only MCP tool, `get_top_tech_news`, over stdio. Configure an MCP client to run `node` with the absolute path to `Backend/src/news/news.mcp.js` and its working directory set to `Backend`, so dotenv can load the backend environment. The Express page endpoint and MCP tool read the same snapshot; the MCP server does not itself run the scheduler. The backend's `npm run mcp:news` command can also launch this server from the Backend directory.
+
+The feed uses a simple recency, popularity, and keyword ranking of Hacker News stories, not an editorial guarantee of tech relevance. Article extraction and AI summaries may fail, and third-party image/content usage depends on the source's terms.
+
 > AI-powered interview preparation and resume optimization platform.
 
 Readify-AI is a full-stack web application that helps candidates prepare for job interviews by analyzing their resume against a target job description.

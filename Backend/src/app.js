@@ -18,6 +18,7 @@ const interviewRouter = require('./routes/interview.routes');
 // auth related api can be accessed through this route
 app.use('/api/auth', authRouter);
 app.use('/api/interview', interviewRouter);
+app.use('/api/news', require('./news/news.routes'));
 
 module.exports = app;
 const port = 3000;

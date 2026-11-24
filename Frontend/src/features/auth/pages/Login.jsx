@@ -1,24 +1,27 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "../auth.form.scss";
 import { Link } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router";
 
 const Login = () => {
-    const { loading, handleLogin } = useAuth();
+    const { loading, actionLoading, handleLogin } = useAuth();
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        await handleLogin({
-            email,
-            password,
-        });
-        navigate("/");
+        setError("");
+        try {
+            await handleLogin({ email, password });
+            navigate("/");
+        } catch (err) {
+            setError(err.response?.data?.message || "Unable to sign in. Please try again.");
+        }
     };
 
     if (loading) {
@@ -63,12 +66,13 @@ const Login = () => {
                         />
                     </div>
 
+                    {error && <p role="alert">{error}</p>}
                     <button
                         type="submit"
                         className="button primary-button"
-                        disabled={loading}
+                        disabled={actionLoading}
                     >
-                        {loading ? "Logging in..." : "Login"}
+                        {actionLoading ? "Logging in..." : "Login"}
                     </button>
                 </form>
 
